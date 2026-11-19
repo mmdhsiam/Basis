@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "20434142842",
+    "project_id": "basis-foundation",
+    "storage_bucket": "basis-foundation.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:20434142842:android:bf46b36843cf2e0f245dc3",
+        "android_client_info": {
+          "package_name": "org.basis.foundation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "20434142842-d30ncg011v4oflvkp86ih47fua32nbod.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx8JbvCry2NFFXCrhf4XjcbR7hGX_ThYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "20434142842-d30ncg011v4oflvkp86ih47fua32nbod.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

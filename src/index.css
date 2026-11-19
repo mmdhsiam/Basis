@@ -1,0 +1,384 @@
+@import "tailwindcss";
+@import "./styles/palette.css";
+
+/* class-based dark variant (html.dark) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic colour that flips with the theme (white in dark, ink in light).
+   Use:  text-ink  bg-ink/10  border-ink/10  */
+@theme {
+  --color-ink: #f2f8f5;
+  --color-brand: #0d705c;
+  --color-brand-deep: #075044;
+  --color-gold: #d5a23b;
+}
+
+@layer base {
+  /* Requirement 2 & 4: Strict Bengali numeral 700 bold weight across all numbers (০-৯).
+     Never use 500 or 600 for numbers in Hind Siliguri. Strictly 700 bold weight. */
+  @font-face {
+    font-family: 'BengaliNumerals700';
+    src: local('Hind Siliguri Bold'), local('HindSiliguri-Bold'), local('Noto Sans Bengali Bold');
+    unicode-range: U+09E6-09EF, U+09F2-09FB, U+0030-0039;
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  :root {
+    --font-bengali: 'BengaliNumerals700', 'Hind Siliguri', 'Noto Sans Bengali', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  html.font-scale-small { font-size: 13.5px; }
+  html.font-scale-medium { font-size: 16px; }
+  html.font-scale-large { font-size: 18.5px; }
+  html.font-scale-xlarge { font-size: 21px; }
+
+  html {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: var(--font-bengali);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Universal bold styling for any numerical content */
+  .num-bold, [data-num], td.num, span.num {
+    font-weight: 700 !important;
+    font-feature-settings: "tnum" 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* High contrast typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 800;
+    letter-spacing: -0.015em;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+
+  /* App-wide smooth border-radius guarantee: zero sharp square inputs, selects, or textareas */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea {
+    border-radius: 0.75rem;
+  }
+
+  input[type="checkbox"] {
+    border-radius: 0.35rem;
+  }
+}
+
+/* ==========================================================================
+   APP CANVAS  (page background with soft brand glow, per theme)
+   ========================================================================== */
+html.dark { color-scheme: dark; }
+html.light { color-scheme: light; }
+
+html.dark body {
+  color: #eef7f3;
+  background-color: #0d1513;
+  background-image: radial-gradient(circle at 75% 0%, #15372e 0, transparent 28%);
+  background-attachment: fixed;
+}
+
+html.light body {
+  color: #15241f;
+  background-color: #f4f7f5;
+  background-image: radial-gradient(circle at 75% 0%, #dff1e9 0, transparent 28%);
+  background-attachment: fixed;
+}
+
+/* Cards: soft elevation in light, tonal elevation in dark (Emerald Trust) */
+html.light [class*="bg-slate-900"][class*="rounded-2xl"],
+html.light [class*="bg-slate-900"][class*="rounded-3xl"],
+html.light [class*="bg-slate-900"][class*="rounded-xl"],
+html.light [class*="bg-slate-900"][class*="rounded-[22px]"] {
+  box-shadow: 0 12px 35px rgba(14, 55, 44, 0.07);
+}
+html.dark [class*="bg-slate-900"][class*="rounded-3xl"],
+html.dark [class*="bg-slate-900"][class*="rounded-2xl"] {
+  box-shadow: none;
+}
+
+/* Inputs: calm surface, clear rounded focus ring */
+input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible {
+  outline: 2px solid #0d705c;
+  outline-offset: 2px;
+}
+html.dark input:focus-visible, html.dark textarea:focus-visible, html.dark select:focus-visible, html.dark button:focus-visible {
+  outline-color: #5ccba6;
+}
+input.search-input-clean:focus-visible {
+  outline: none !important;
+}
+
+/* Printable paper (receipts / statements) never follows the theme */
+.paper { background-color: #ffffff; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(13, 112, 92, 0.35); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(13, 112, 92, 0.7); }
+.scrollbar-none { scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* ==========================================================================
+   DESIGN TOKENS used by the new shell (header / nav / dashboard)
+   ========================================================================== */
+:root {
+  --surface: rgba(22, 33, 30, 0.94);
+  --surface-solid: #16211e;
+  --surface-2: #1b2925;
+  --line: #2a3a35;
+  --line-strong: #34493f;
+  --text-1: #eef7f3;
+  --text-2: #a9bbb3;
+  --text-3: #8a9c94;
+  --shadow-soft: none;
+  --shadow-pop: 0 -10px 34px rgba(0, 0, 0, 0.32);
+  --hero-grad: linear-gradient(135deg, #0b6551 0%, #08503f 55%, #063a2f 100%);
+  --brand-grad: linear-gradient(135deg, #43d6a6 0%, #1ab98c 100%);
+  --brand-ink: #05241c;
+  --nav-bg: rgba(22, 33, 30, 0.96);
+  --tonal: rgba(20, 131, 109, 0.22);
+  --tonal-line: rgba(85, 190, 154, 0.32);
+  --tonal-text: #8ae0c1;
+}
+
+html.light {
+  --surface: rgba(255, 255, 255, 0.94);
+  --surface-solid: #ffffff;
+  --surface-2: #fbfdfc;
+  --line: #dfe8e3;
+  --line-strong: #cddbd4;
+  --text-1: #15241f;
+  --text-2: #3f524b;
+  --text-3: #64736d;
+  --shadow-soft: 0 12px 35px rgba(14, 55, 44, 0.07);
+  --shadow-pop: 0 -10px 35px rgba(14, 55, 44, 0.08);
+  --hero-grad: linear-gradient(135deg, #0d705c 0%, #075044 100%);
+  --brand-grad: linear-gradient(135deg, #075044 0%, #0d705c 100%);
+  --brand-ink: #ffffff;
+  --nav-bg: rgba(255, 255, 255, 0.96);
+  --tonal: #d9f2e7;
+  --tonal-line: #bfe5d6;
+  --tonal-text: #075044;
+}
+
+/* ---------- Reusable building blocks ---------- */
+.glass {
+  background: var(--surface);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  border: 1px solid var(--line);
+}
+
+.card {
+  background: var(--surface-solid);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.bg-hero { background: var(--hero-grad); }
+.bg-brand-grad { background: var(--brand-grad); }
+.bg-gold-grad { background: #d5a23b; }
+
+.btn-brand {
+  background: var(--brand-grad);
+  color: var(--brand-ink);
+  box-shadow: 0 10px 24px -12px rgba(13, 112, 92, 0.7);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+.btn-brand:hover { filter: brightness(1.06); }
+.btn-brand:active { transform: scale(0.97); }
+
+.text-brand-grad { color: #5ccba6; }
+html.light .text-brand-grad { color: #0d705c; }
+
+.hairline { border-color: var(--line); }
+
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: rise 0.54s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.animate-drawer { animation: slideInLeft 0.38s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes marquee {
+  0% { transform: translate3d(0%, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+.animate-marquee:hover { animation-play-state: paused; }
+
+/* Bottom navigation (floating glass dock) */
+.dock {
+  background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line);
+  box-shadow: var(--shadow-pop);
+}
+
+/* Legacy classes kept so nothing else breaks */
+.glowing-nav-menu {
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-pop);
+}
+.glowing-nav-item-active {
+  background: var(--tonal);
+  border: 1px solid var(--tonal-line);
+  color: var(--tonal-text) !important;
+}
+
+/* Colorful icons with subtle hover micro-motion */
+.icon-motion {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+}
+.icon-motion:hover { transform: scale(1.15) rotate(3deg); }
+
+/* Pull to refresh spinner animation */
+@keyframes pullSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.pull-refresh-spin { animation: pullSpin 0.75s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-rise, .animate-drawer { animation: none !important; }
+}
+
+/* Numbers: bold, tabular */
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* ==========================================================================
+   CIRCULAR VIEW TRANSITION (Expanding Circle from Mode Icon)
+   ========================================================================== */
+::view-transition-group(root) {
+  animation: none !important;
+  transform: none !important;
+}
+
+::view-transition-image-pair(root) {
+  isolation: isolate;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none !important;
+  mix-blend-mode: normal;
+  display: block;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: clip;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* Freeze nested CSS transitions and animations during ViewTransition snapshot capture so 0 delay or color lag occurs */
+html.theme-transitioning *:not(.animate-marquee):not(.animate-marquee *),
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: none !important;
+  animation-duration: 0s !important;
+}
+
+html.theme-transitioning .animate-marquee {
+  animation-play-state: running !important;
+}
+
+.card-interactive {
+  transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.30s ease,
+              box-shadow 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+}
+
+.card-interactive:active {
+  transform: translateY(0) scale(0.985);
+}
+
+/* Subtle dot/grid backdrop for analytics chart canvas */
+.chart-canvas-grid {
+  background-image: radial-gradient(rgba(92, 203, 166, 0.14) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+html.light .chart-canvas-grid {
+  background-image: radial-gradient(rgba(13, 112, 92, 0.12) 1px, transparent 1px);
+}
+
+/* Light Mode Navigation Menu Tabs: crisp radius + shadow so tabs never blend into white */
+html.light [data-nav-panel] {
+  background-color: #edf4f0 !important;
+}
+
+html.light .nav-tab-card {
+  background-color: #ffffff;
+  border: 1px solid #d3e4dc;
+  border-radius: 0.75rem;
+  box-shadow: 0 3px 10px rgba(13, 112, 92, 0.08), 0 1px 2px rgba(14, 55, 44, 0.05);
+  color: #15241f;
+}
+
+html.light .nav-tab-card:hover {
+  background-color: #f5fbf8;
+  border-color: #9cd2bc;
+  box-shadow: 0 5px 14px rgba(13, 112, 92, 0.13);
+}
+
+html.light .nav-tab-active-card {
+  background-color: #e4f6ee;
+  border: 1px solid #5ccba6;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 14px rgba(13, 112, 92, 0.16);
+  color: #075044;
+}
+
+

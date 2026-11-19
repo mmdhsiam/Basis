@@ -1,0 +1,8 @@
+{
+  "name": "BASIS FOUNDATION — Digital Cooperative Savings Management",
+  "description": "বেসিস ফাউন্ডেশন - ডিজিটাল সমবায় সঞ্চয় ও ব্যবস্থাপনা প্ল্যাটফর্ম। সঞ্চয় হিসাব, বহু-মডারেটর অনুমোদন, ডিজিটাল রসিদ ও আর্থিক বিবরণী।",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

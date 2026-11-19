@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="bn">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem('basis_foundation_storage_v1');
+          var parsed = raw ? JSON.parse(raw) : null;
+          var settings = parsed && parsed.settings ? parsed.settings : null;
+          var userSelected = settings && settings.themeUserSelected === true;
+          var savedMode = settings && settings.themeMode ? settings.themeMode : null;
+          var sysDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var isDark =
+            userSelected && (savedMode === 'dark' || savedMode === 'light')
+              ? savedMode === 'dark'
+              : sysDark;
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.classList.toggle('light', !isDark);
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+          window.__BASIS_THEME_COLOR__ = isDark ? '#0d1513' : '#f4f7f5';
+        } catch (e) {
+          var fallbackDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', fallbackDark);
+          document.documentElement.classList.toggle('light', !fallbackDark);
+          document.documentElement.style.colorScheme = fallbackDark ? 'dark' : 'light';
+          window.__BASIS_THEME_COLOR__ = fallbackDark ? '#0d1513' : '#f4f7f5';
+        }
+      })();
+    </script>
+    <style>
+      html.dark body { background-color: #0d1513; }
+      html.light body { background-color: #f4f7f5; }
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>BASIS FOUNDATION — Digital Cooperative Savings Management</title>
+    <meta name="description" content="বেসিস ফাউন্ডেশন - ডিজিটাল সমবায় সঞ্চয় ও ব্যবস্থাপনা প্ল্যাটফর্ম। সঞ্চয় হিসাব, বহু-মডারেটর অনুমোদন, ডিজিটাল রসিদ ও আর্থিক বিবরণী।" />
+    <meta property="og:title" content="BASIS FOUNDATION — Digital Cooperative Savings Management" />
+    <meta property="og:description" content="বেসিস ফাউন্ডেশন - ডিজিটাল সমবায় সঞ্চয় ও ব্যবস্থাপনা প্ল্যাটফর্ম। সঞ্চয় হিসাব, বহু-মডারেটর অনুমোদন, ডিজিটাল রসিদ ও আর্থিক বিবরণী।" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0d1513" />
+    <script>
+      (function () {
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta && window.__BASIS_THEME_COLOR__) {
+          meta.setAttribute('content', window.__BASIS_THEME_COLOR__);
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="apple-touch-icon" href="/logo.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Hind Siliguri strictly weights 300, 400, 700 per Point 2 & 4 -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;700&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+      window.addEventListener('error', function(e) {
+        if (!document.getElementById('root') || !document.getElementById('root').hasChildNodes()) {
+          var el = document.getElementById('basis-boot-status');
+          if (!el) {
+            el = document.createElement('div');
+            el.id = 'basis-boot-status';
+            el.style = 'position:fixed;bottom:20px;left:16px;right:16px;background:#991b1b;color:#fff;padding:12px;border-radius:10px;font-family:sans-serif;font-size:13px;z-index:999999;box-shadow:0 10px 25px rgba(0,0,0,0.5);text-align:center;';
+            document.body.appendChild(el);
+          }
+          el.innerText = 'অ্যাপ স্ক্রিন লোড ত্রুটি: ' + (e.message || 'Script load failure');
+        }
+      });
+    </script>
+  </head>
+  <body class="font-sans antialiased selection:bg-emerald-500 selection:text-white" style="margin: 0; min-height: 100vh;">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
